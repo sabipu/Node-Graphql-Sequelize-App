@@ -17,6 +17,11 @@ const typeDefs = gql`
     description: String!
   }
 
+  type Mutation {
+    createUser(email: String!, name: String!, hashPassword: String!): User!
+    createSite(userId: ID!, name: String!, url: String!, username: String!, sitePassword: String!, description: String!): Site!
+  }
+
   type Query {
     users: [User!]!
     sites: [Site!]!

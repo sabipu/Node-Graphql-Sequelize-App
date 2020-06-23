@@ -12,6 +12,7 @@ module.exports.up = (queryInterface, DataTypes) => {
     },
     email: {
       allowNull: false,
+      unique: true,
       type: DataTypes.STRING
     },
     hashPassword: {
