@@ -16,7 +16,7 @@ export class User extends Model<User> {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataType.INTEGER.UNSIGNED
+    type: DataType.UUID
   })
   id!: string;
 
@@ -35,13 +35,50 @@ export class User extends Model<User> {
 
   @Column({
     allowNull: true,
-    type: DataType.STRING
+    type: DataType.CHAR(64)
   })
   hashPassword!: string;
 
   @HasMany(() => Site)
   sites!: Site[];
 }
+
+// @Table({
+//   paranoid: false,
+//   tableName: `${tablePrefix}-userSessions`
+// })
+
+// export class UserSession extends Model<UserSession> {
+//   @Column({
+//     allowNull: false,
+//     autoIncrement: true,
+//     primaryKey: true,
+//     type: DataType.UUID
+//   })
+//   id!: string;
+
+//   @Column({
+//     allowNull: false,
+//     type: DataType.STRING
+//   })
+//   name!: string;
+
+//   @Column({
+//     allowNull: false,
+//     unique: true,
+//     type: DataType.STRING
+//   })
+//   email!: string;
+
+//   @Column({
+//     allowNull: true,
+//     type: DataType.CHAR(64)
+//   })
+//   hashPassword!: string;
+
+//   @HasMany(() => Site)
+//   sites!: Site[];
+// }
 
 @Table({
   defaultScope: {
@@ -56,7 +93,7 @@ export class Site extends Model<Site> {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataType.INTEGER.UNSIGNED
+    type: DataType.UUID
   })
   id!: string;
 

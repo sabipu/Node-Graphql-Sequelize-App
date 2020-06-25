@@ -2,9 +2,8 @@ module.exports.up = (queryInterface, DataTypes) => {
   return queryInterface.createTable("pre-users", {
     id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER.UNSIGNED
+      type: DataTypes.UUID
     },
     name: {
       allowNull: true,
@@ -17,7 +16,7 @@ module.exports.up = (queryInterface, DataTypes) => {
     },
     hashPassword: {
       allowNull: true,
-      type: DataTypes.STRING
+      type: DataTypes.CHAR(64)
     },
     createdAt: {
       allowNull: false,

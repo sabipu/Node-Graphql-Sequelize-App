@@ -1,16 +1,12 @@
-import { ApolloServer } from 'apollo-server-express';
-import * as cors from "cors";
 import * as express from "express";
+import * as cors from "cors";
+import * as bodyParser from 'body-parser';
+import { router } from '#root/routes';
 
-import resolvers from "#root/graphql/resolvers";
-import typeDefs from "#root/graphql/typeDefs";
 import accessEnv from "#root/helpers/accessEnv";
 
-const PORT = accessEnv("PORT", 7000);
-
-const apolloServer = new ApolloServer({ resolvers, typeDefs });
-
 const app = express();
+const PORT = accessEnv("PORT", 7000);
 
 app.use(
   cors({
@@ -26,7 +22,9 @@ app.use(
   })
 );
 
-apolloServer.applyMiddleware({ app, path: "/graphql" });
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(router);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Node Service listening to ${PORT}`);
