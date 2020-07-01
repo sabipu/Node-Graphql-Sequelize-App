@@ -7,9 +7,11 @@ const DB_URL = accessEnv("DB_URL");
 const sequelize = new Sequelize(DB_URL, {
   dialectOptions: {
     charset: "utf8",
-    multipleStatements: true
+    multipleStatements: true,
+    timezone: '+08:00'
   },
   logging: false,
+  timezone: '+08:00',
   models
 });
 

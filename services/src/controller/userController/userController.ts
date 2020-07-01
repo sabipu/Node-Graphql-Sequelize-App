@@ -1,6 +1,10 @@
-import { User, Site } from "#root/db/models";
+import { addHours } from "date-fns";
+import { User, UserSession, Site } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 import hashedPassword from "#root/helpers/hashedPassword";
+import passwordCompareSync from "#root/helpers/passwordCompareSync";
+
+const USER_SESSION_EXPIRY_HOURS = 1;
 
 class userControllers {
   getAllUsers(req: any, res: any) {
@@ -12,33 +16,11 @@ class userControllers {
       }));
   }
 
-  getSiteResolver = async (req: any, res: any, next: any) => {
-    try {
-      const sites = await Site.findByPk(req.body.userId);
-
-      if(!sites) {
-        res.status(403).send({
-          success: false,
-          message: "Not sites found"
-        });
-        return next(new Error("Invalid session ID"));
-      }
-
-      return res.status(200).send({
-        success: true,
-        message: "Retrieved sites successfully",
-        sites
-      });
-    } catch(e) {
-      return next(e);
-    }
-  }
-
   createUserResolver = async (req: any, res: any, next: any) => {
     if (await User.findOne({ where: { email: req.body.email } })) {
       res.status(403).send({
         success: false,
-        message: "The following email address already exists"
+        message: "Email address already exists"
       })
     }
     try {
@@ -59,12 +41,48 @@ class userControllers {
     }
   }
 
-  createSiteResolver = async (req: any, res: any, next: any) => {
-    try {
-      res.status(200).send(req.body);
-    } catch(e) {
-      return next(e);
+  userSessionResolver = async (req: any, res: any, next: any) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    if(email && password) {
+      const user = await User.findOne({ where: { email: req.body.email } });
+
+      if(!user) {
+        return res.status(403).send({
+          success: false,
+          message: "Email doesn't exists"
+        });
+      }
+
+      if (!passwordCompareSync(req.body.password, user.hashPassword)) {
+        return res.status(403).send({
+          success: false,
+          message: "Incorrect password"
+        });
+      }
+
+      const expiresAt = addHours(new Date(), USER_SESSION_EXPIRY_HOURS);
+      const sessionToken = generateUUID();
+
+      const userSession = await UserSession.create({
+        expiresAt,
+        id: sessionToken,
+        userId: user.id
+      });
+
+      return res.status(200).send({
+        success: true,
+        message: "User session created",
+        userSession
+      });
+
     }
+
+    return res.status(403).send({
+      success: false,
+      message: "Email or password not provided"
+    });
   }
 }
 

@@ -43,42 +43,40 @@ export class User extends Model<User> {
   sites!: Site[];
 }
 
-// @Table({
-//   paranoid: false,
-//   tableName: `${tablePrefix}-userSessions`
-// })
+@Table({
+  paranoid: false,
+  tableName: `${tablePrefix}-userSessions`,
+  updatedAt: false
+})
 
-// export class UserSession extends Model<UserSession> {
-//   @Column({
-//     allowNull: false,
-//     autoIncrement: true,
-//     primaryKey: true,
-//     type: DataType.UUID
-//   })
-//   id!: string;
+export class UserSession extends Model<UserSession> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
 
-//   @Column({
-//     allowNull: false,
-//     type: DataType.STRING
-//   })
-//   name!: string;
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => User)
+  userId!: string;
 
-//   @Column({
-//     allowNull: false,
-//     unique: true,
-//     type: DataType.STRING
-//   })
-//   email!: string;
+  @Column({
+    allowNull: false,
+    type: DataType.DATE
+  })
+  expiresAt!: string;
 
-//   @Column({
-//     allowNull: true,
-//     type: DataType.CHAR(64)
-//   })
-//   hashPassword!: string;
 
-//   @HasMany(() => Site)
-//   sites!: Site[];
-// }
+
+
+  @BelongsTo(() => User)
+  user!: User;
+}
 
 @Table({
   defaultScope: {
@@ -99,7 +97,7 @@ export class Site extends Model<Site> {
 
   @Column({
     allowNull: false,
-    type: DataType.INTEGER.UNSIGNED
+    type: DataType.UUID
   })
   @ForeignKey(() => User)
   userId!: string;
@@ -138,4 +136,4 @@ export class Site extends Model<Site> {
   user!: User;
 }
 
-export default [User, Site];
+export default [User, UserSession, Site];
