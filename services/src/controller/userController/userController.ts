@@ -10,7 +10,7 @@ class userControllers {
   getAllUsers(req: any, res: any) {
     User.findAll()
       .then((users: any) => res.status(200).send({
-        success: 'true',
+        success: true,
         message: 'users retrieved successfully',
         users,
       }));
@@ -26,9 +26,9 @@ class userControllers {
     try {
       const user = await User.create({
         id: generateUUID(),
-        email: req.body.email, 
-        name: req.body.name, 
-        hashPassword: hashedPassword(req.body.hashPassword)
+        email: req.body.email,
+        name: req.body.name,
+        hashPassword: hashedPassword(req.body.password)
       });
 
       return res.status(200).send({
