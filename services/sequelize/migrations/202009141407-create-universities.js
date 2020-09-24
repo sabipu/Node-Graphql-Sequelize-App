@@ -1,49 +1,34 @@
 module.exports.up = (queryInterface, DataTypes) => {
-  return queryInterface.createTable("pre-users", {
+  return queryInterface.createTable("pre-universities", {
     id: {
       unique: true,
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID
     },
-    company_id: {
+    companyId: {
       allowNull: false,
-      foreignKey: true,
-      type: DataTypes.UUID,
       references: {
         key: "id",
         model: "pre-companies"
-      }
-    },
-    first_name: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    last_name: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    role: {
-      type: DataTypes.ENUM,
-      values: ['admin', 'staff']
-    },
-    team: {
+      },
       type: DataTypes.UUID
     },
-    company: {
-      type: DataTypes.UUID
+    name: {
+      allowNull: true,
+      type: DataTypes.STRING
     },
     email: {
-      allowNull: false,
-      unique: true,
+      allowNull: true,
       type: DataTypes.STRING
     },
-    hashPassword: {
+    phone: {
       allowNull: true,
-      type: DataTypes.CHAR(64)
+      type: DataTypes.STRING
     },
-    last_login: {
-      type: DataTypes.DATE
+    description: {
+      allowNull: true,
+      type: DataTypes.TEXT
     },
     createdAt: {
       allowNull: false,
@@ -62,4 +47,4 @@ module.exports.up = (queryInterface, DataTypes) => {
   });
 };
 
-module.exports.down = queryInterface => queryInterface.dropTable("pre-users");
+module.exports.down = queryInterface => queryInterface.dropTable("pre-universities");

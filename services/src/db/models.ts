@@ -21,10 +21,16 @@ export class User extends Model<User> {
   id!: string;
 
   @Column({
-    allowNull: false,
+    allowNull: true,
     type: DataType.STRING
   })
-  name!: string;
+  first_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  last_name!: string;
 
   @Column({
     allowNull: false,
@@ -70,9 +76,6 @@ export class UserSession extends Model<UserSession> {
     type: DataType.DATE
   })
   expiresAt!: string;
-
-
-
 
   @BelongsTo(() => User)
   user!: User;
@@ -136,4 +139,230 @@ export class Site extends Model<Site> {
   user!: User;
 }
 
-export default [User, UserSession, Site];
+@Table({
+  defaultScope: {
+    attributes: { exclude: ["deletedAt"] }
+  },
+  paranoid: true,
+  tableName: `${tablePrefix}-companies`
+})
+
+export class Company extends Model<Company> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => User)
+  userId!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  url!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  description!: string;
+
+  @BelongsTo(() => User)
+  user!: User;
+
+  @HasMany(() => Client)
+  client!: Client[];
+
+  @HasMany(() => University)
+  university!: University[];
+}
+
+@Table({
+  defaultScope: {
+    attributes: { exclude: ["deletedAt"] }
+  },
+  paranoid: true,
+  tableName: `${tablePrefix}-clients`
+})
+
+export class Client extends Model<Client> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => Company)
+  companyId!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  first_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  middle_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  last_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  email!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  phone!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  contact_type!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  description!: string;
+
+  @BelongsTo(() => Company)
+  company!: Company;
+}
+
+@Table({
+  defaultScope: {
+    attributes: { exclude: ["deletedAt"] }
+  },
+  paranoid: true,
+  tableName: `${tablePrefix}-universities`
+})
+
+export class University extends Model<University> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => Company)
+  companyId!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  email!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  phone!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  description!: string;
+
+  @BelongsTo(() => Company)
+  company!: Company;
+}
+
+@Table({
+  defaultScope: {
+    attributes: { exclude: ["deletedAt"] }
+  },
+  paranoid: true,
+  tableName: `${tablePrefix}-courses`
+})
+
+export class Course extends Model<Course> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => University)
+  universityId!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  duration!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  processing_time!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  bonus_amount!: string;
+
+  @BelongsTo(() => University)
+  university!: University;
+}
+
+export default [User, UserSession, Site, Client, Company, University, Course];

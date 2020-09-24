@@ -1,12 +1,12 @@
 module.exports.up = (queryInterface, DataTypes) => {
-  return queryInterface.createTable("pre-users", {
+  return queryInterface.createTable("pre-clients", {
     id: {
       unique: true,
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID
     },
-    company_id: {
+    companyId: {
       allowNull: false,
       foreignKey: true,
       type: DataTypes.UUID,
@@ -19,31 +19,29 @@ module.exports.up = (queryInterface, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
+    middle_name: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     last_name: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    role: {
-      type: DataTypes.ENUM,
-      values: ['admin', 'staff']
-    },
-    team: {
-      type: DataTypes.UUID
-    },
-    company: {
-      type: DataTypes.UUID
-    },
     email: {
-      allowNull: false,
-      unique: true,
+      allowNull: true,
       type: DataTypes.STRING
     },
-    hashPassword: {
+    phone: {
       allowNull: true,
-      type: DataTypes.CHAR(64)
+      type: DataTypes.STRING
     },
-    last_login: {
-      type: DataTypes.DATE
+    contact_type: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    description: {
+      allowNull: true,
+      type: DataTypes.TEXT
     },
     createdAt: {
       allowNull: false,
@@ -62,4 +60,4 @@ module.exports.up = (queryInterface, DataTypes) => {
   });
 };
 
-module.exports.down = queryInterface => queryInterface.dropTable("pre-users");
+module.exports.down = queryInterface => queryInterface.dropTable("pre-clients");

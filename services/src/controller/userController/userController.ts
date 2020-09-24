@@ -27,7 +27,7 @@ class userControllers {
       const user = await User.create({
         id: generateUUID(),
         email: req.body.email,
-        name: req.body.name,
+        first_name: req.body.first_name,
         hashPassword: hashedPassword(req.body.password)
       });
 

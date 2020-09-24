@@ -1,6 +1,7 @@
 module.exports.up = (queryInterface, DataTypes) => {
   return queryInterface.createTable("pre-sites", {
     id: {
+      unique: true,
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID

@@ -1,71 +1,33 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {API_BASE_URL, ACCESS_TOKEN_NAME} from './constants/apiCotants';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from './utils/PrivateRoute';
 
-function App(props) {
-    const [state , setState] = useState({
-        email : "",
-        password : "",
-        name: ""
-    })
-    const handleChange = (e) => {
-        const {id , value} = e.target   
-        setState(prevState => ({
-            ...prevState,
-            [id] : value
-        }))
-    }
-    const sendDetailsToServer = () => {
-      // if(state.email.length && state.password.length) {
-      //     props.showError(null);
-      //     const payload={
-      //         "email":state.email,
-      //         "password":state.password,
-      //     }
-      //     axios.post(API_BASE_URL+'/user/register', payload)
-      //         .then(function (response) {
-      //             if(response.status === 200){
-      //                 setState(prevState => ({
-      //                     ...prevState,
-      //                     'successMessage' : 'Registration successful. Redirecting to home page..'
-      //                 }))
-      //                 localStorage.setItem(ACCESS_TOKEN_NAME,response.data.token);
-      //                 redirectToHome();
-      //                 props.showError(null)
-      //             } else{
-      //                 props.showError("Some error ocurred");
-      //             }
-      //         })
-      //         .catch(function (error) {
-      //             console.log(error);
-      //         });    
-      // } else {
-      //     props.showError('Please enter valid username and password')    
-      // }
-    }
+import { LoginForm } from "./components/LoginForm";
+import { RegistrationForm } from "./components/RegistrationForm";
+import { Dashboard } from "./components/Dashboard";
+import { Home } from "./components/Home";
 
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        console.log(state);
-        if(state.password === state.confirmPassword) {
-            sendDetailsToServer()    
-        } else {
-            throw new Error('Passwords do not match');
-        }
-    }
-    return(
-      <>
-        <div>
-          <input type="text" placeholder="name" id="name" value={state.name} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="text" placeholder="name" id="email" value={state.email} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="password" placeholder="name" id="password" value={state.password} onChange={handleChange} />
-        </div>
-        <input type="submit" onClick={handleSubmitClick} /> 
-      </>
-    )
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact={true}>
+          <Home />
+        </Route>
+        <Route path="/register">
+          <RegistrationForm />
+        </Route>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+        <PrivateRoute path="/dashboard">
+          <Dashboard />
+        </PrivateRoute>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
