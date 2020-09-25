@@ -6,15 +6,6 @@ module.exports.up = (queryInterface, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    company_id: {
-      allowNull: false,
-      foreignKey: true,
-      type: DataTypes.UUID,
-      references: {
-        key: "id",
-        model: "pre-companies"
-      }
-    },
     first_name: {
       allowNull: true,
       type: DataTypes.STRING

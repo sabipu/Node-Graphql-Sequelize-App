@@ -19,16 +19,7 @@ class enrollmentControllers {
           universityId: req.body.universityId,
           course_name: req.body.course_name,
           course_category: req.body.course_category,
-          course_start_date: req.body.course_start_date,
-          application_submission_date: req.body.application_submission_date,
-          offer_letter_date: req.body.offer_letter_date,
-          offer_accpetance_date: req.body.offer_accpetance_date,
-          gte_assessment_date: req.body.gte_assessment_date,
-          ecoe_date: req.body.ecoe_date,
-          actual_ecoe_received_date: req.body.actual_ecoe_received_date,
-          visa_application_lodge_date: req.body.visa_application_lodge_date,
-          processing_time: req.body.processing_time,
-          bonus_amount: req.body.bonus_amount
+          course_start_date: req.body.course_start_date
         });
 
         res.status(200).send(site);

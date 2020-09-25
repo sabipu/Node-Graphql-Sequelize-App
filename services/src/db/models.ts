@@ -393,15 +393,15 @@ export class Enrollment extends Model<Enrollment> {
     allowNull: false,
     type: DataType.UUID
   })
-  @ForeignKey(() => Client)
+  @ForeignKey(() => Course)
   courseId!: string;
   
   @Column({
     allowNull: false,
     type: DataType.UUID
   })
-  @ForeignKey(() => Client)
-  unversityId!: string;
+  @ForeignKey(() => University)
+  universityId!: string;
 
   @Column({
     allowNull: true,
@@ -411,7 +411,7 @@ export class Enrollment extends Model<Enrollment> {
 
   @Column({
     allowNull: true,
-    type: DataType.ENUM
+    type: DataType.STRING
   })
   course_category!: string;
 
