@@ -1,5 +1,6 @@
 import React,{ useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Enrollment } from "../Enrollment"
 
 function Dashboard(props) {
     // useEffect(() => {
@@ -20,36 +21,7 @@ function Dashboard(props) {
 
     return(
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
-                        <th>6</th>
-                        <th>7</th>
-                        <th>8</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                </tbody>
-            </table>
+            <Enrollment />
         </div>
     )
 }

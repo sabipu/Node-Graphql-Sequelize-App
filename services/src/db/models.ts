@@ -365,4 +365,118 @@ export class Course extends Model<Course> {
   university!: University;
 }
 
-export default [User, UserSession, Site, Client, Company, University, Course];
+@Table({
+  defaultScope: {
+    attributes: { exclude: ["deletedAt"] }
+  },
+  paranoid: true,
+  tableName: `${tablePrefix}-enrollments`
+})
+
+export class Enrollment extends Model<Enrollment> {
+  @Column({
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataType.UUID
+  })
+  id!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => Client)
+  clientId!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => Client)
+  courseId!: string;
+  
+  @Column({
+    allowNull: false,
+    type: DataType.UUID
+  })
+  @ForeignKey(() => Client)
+  unversityId!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  course_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.ENUM
+  })
+  course_category!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  course_start_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  application_submission_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  offer_letter_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  offer_accpetance_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  gte_assessment_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  ecoe_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  actual_ecoe_received_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.DATE
+  })
+  visa_application_lodge_date!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  processing_time!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  bonus_amount!: string;
+
+  @BelongsTo(() => University)
+  university!: University;
+}
+
+export default [User, UserSession, Site, Client, Company, University, Course, Enrollment];
