@@ -6,11 +6,11 @@ module.exports.up = (queryInterface, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    universityId: {
+    companyId: {
       allowNull: false,
       references: {
         key: "id",
-        model: "pre-universities"
+        model: "pre-companies"
       },
       type: DataTypes.UUID
     },
@@ -18,17 +18,32 @@ module.exports.up = (queryInterface, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
+    university_name : {
+      type: DataTypes.STRING
+    },
+    email: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    phone: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     duration: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    processing_time: {
+    application_processing_days: {
       allowNull: true,
-      type: DataTypes.STRING
+      type: DataTypes.INT
     },
     bonus_amount: {
       allowNull: true,
-      type: DataTypes.TEXT
+      type: DataTypes.INT
+    },
+    category: {
+      type: DataTypes.ENUM,
+      values: ['onshore', 'offshore']
     },
     createdAt: {
       allowNull: false,

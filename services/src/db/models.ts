@@ -187,8 +187,8 @@ export class Company extends Model<Company> {
   @HasMany(() => Client)
   client!: Client[];
 
-  @HasMany(() => University)
-  university!: University[];
+  @HasMany(() => Course)
+  course!: Course[];
 }
 
 @Table({
@@ -266,10 +266,10 @@ export class Client extends Model<Client> {
     attributes: { exclude: ["deletedAt"] }
   },
   paranoid: true,
-  tableName: `${tablePrefix}-universities`
+  tableName: `${tablePrefix}-courses`
 })
 
-export class University extends Model<University> {
+export class Course extends Model<Course> {
   @Column({
     allowNull: false,
     autoIncrement: true,
@@ -295,74 +295,22 @@ export class University extends Model<University> {
     allowNull: true,
     type: DataType.STRING
   })
-  email!: string;
-
-  @Column({
-    allowNull: true,
-    type: DataType.STRING
-  })
-  phone!: string;
-
-  @Column({
-    allowNull: true,
-    type: DataType.STRING
-  })
-  description!: string;
-
-  @BelongsTo(() => Company)
-  company!: Company;
-}
-
-@Table({
-  defaultScope: {
-    attributes: { exclude: ["deletedAt"] }
-  },
-  paranoid: true,
-  tableName: `${tablePrefix}-courses`
-})
-
-export class Course extends Model<Course> {
-  @Column({
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataType.UUID
-  })
-  id!: string;
-
-  @Column({
-    allowNull: false,
-    type: DataType.UUID
-  })
-  @ForeignKey(() => University)
-  universityId!: string;
-
-  @Column({
-    allowNull: true,
-    type: DataType.STRING
-  })
-  name!: string;
-
-  @Column({
-    allowNull: true,
-    type: DataType.STRING
-  })
   duration!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.STRING
+    type: DataType.INTEGER
   })
-  processing_time!: string;
+  application_processing_days!: number;
 
   @Column({
     allowNull: true,
-    type: DataType.STRING
+    type: DataType.INTEGER
   })
-  bonus_amount!: string;
+  bonus_amount!: number;
 
-  @BelongsTo(() => University)
-  university!: University;
+  @BelongsTo(() => Company)
+  company!: Company;
 }
 
 @Table({
@@ -395,13 +343,6 @@ export class Enrollment extends Model<Enrollment> {
   })
   @ForeignKey(() => Course)
   courseId!: string;
-  
-  @Column({
-    allowNull: false,
-    type: DataType.UUID
-  })
-  @ForeignKey(() => University)
-  universityId!: string;
 
   @Column({
     allowNull: true,
@@ -475,8 +416,8 @@ export class Enrollment extends Model<Enrollment> {
   })
   bonus_amount!: string;
 
-  @BelongsTo(() => University)
-  university!: University;
+  @BelongsTo(() => Client)
+  client!: Client;
 }
 
-export default [User, UserSession, Site, Client, Company, University, Course, Enrollment];
+export default [User, UserSession, Site, Client, Company, Course, Enrollment];

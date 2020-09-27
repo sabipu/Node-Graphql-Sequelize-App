@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiCotants';
 import { Link, withRouter } from "react-router-dom";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 function Enrollment(props) {
   const [state , setState] = useState({
@@ -9,7 +13,7 @@ function Enrollment(props) {
       course_name : "",
       institute : "",
       category : "",
-      course_start_date : "",
+      course_start_date : new Date(),
       successMessage: null
   })
   const handleChange = (e) => {
@@ -65,16 +69,29 @@ function Enrollment(props) {
         <input type="text" placeholder="client ID" id="client_id" value={state.client_id} onChange={handleChange} />
       </div>
       <div>
-        <input type="text" placeholder="Course name" id="course_name" value={state.course_name} onChange={handleChange} />
+        <select id="course_name" value={state.course_name} onChange={handleChange}>
+          <option value="bachelors-in-nursing">Bachelors in Nursing</option>
+          <option value="bachelors-in-it">Bachelors in IT</option>
+          <option value="masters-in-commerce">Masters in Commerce</option>
+          <option value="masters-in-humanity">Masters in Humanity</option>
+        </select>
       </div>
       <div>
-        <input type="text" placeholder="Institute" id="institute" value={state.institute} onChange={handleChange} />
+        <select id="institute" value={state.institute} onChange={handleChange}>
+          <option value="murdoch-uni">Murdoch Uni</option>
+          <option value="curtin-uni">Curtin Uni</option>
+          <option value="uwa">UWA Uni</option>
+          <option value="edith-cowan-uni">Edith Cowan Uni</option>
+        </select>
       </div>
       <div>
-        <input type="text" placeholder="Category" id="category" value={state.category} onChange={handleChange} />
+        <select id="category" value={state.category} onChange={handleChange}>
+          <option value="onshore">Onshore</option>
+          <option value="offshore">Offshore</option>
+        </select>
       </div>
       <div>
-        <input type="text" placeholder="Course Start Date" id="course_name" value={state.course_start_date} onChange={handleChange} />
+        <DatePicker id="course_start_date" selected={state.course_start_date} onChange={date => handleChange(date)} />
       </div>
       <input type="submit" onClick={handleSubmitClick} />
       <div>

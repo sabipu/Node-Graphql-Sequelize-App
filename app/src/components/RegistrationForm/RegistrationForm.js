@@ -43,10 +43,7 @@ function RegistrationForm(props) {
                   }
               })
               .catch(function (error) {
-                setState(prevState => ({
-                  ...prevState,
-                  'successMessage' : error
-                }))
+                console.log(error)
               });    
       } else {
           setState(prevState => ({

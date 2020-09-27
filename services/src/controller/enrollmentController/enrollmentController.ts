@@ -1,28 +1,48 @@
-import { User, UserSession, Client, Enrollment } from "#root/db/models";
+import { UserSession, Enrollment } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
+import enrollmentCalculator from "#root/helpers/enrollmentCalculator";
 
 class enrollmentControllers {
   createEnrollmentResolver = async (req: any, res: any, next: any) => {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
-      if(!session) {
+      if(session) {
         return res.status(403).send({
           success: false,
           message: "No user found"
         });
       } else {
-        const site = await Enrollment.create({
+        const enrollmentData = await enrollmentCalculator(req.body.courseId, req.body.course_start_date);
+
+        const enrollment = await Enrollment.create({
           id: generateUUID(),
           clientId: req.body.clientId,
           courseId: req.body.courseId,
-          universityId: req.body.universityId,
-          course_name: req.body.course_name,
-          course_category: req.body.course_category,
-          course_start_date: req.body.course_start_date
+          course_name: enrollmentData.course_name,
+          course_category: enrollmentData.course_category,
+          course_start_date: enrollmentData.course_start_date,
+          application_submission_date: enrollmentData.applicate_submission_date,
+          offer_letter_date: enrollmentData.offer_letter_date,
+          offer_accpetance_date: enrollmentData.offer_accpetance_date,
+          gte_assessment_date: enrollmentData.gte_assessment_date,
+          ecoe_date: enrollmentData.ecoe_date,
+          visa_application_lodge_date: enrollmentData.visa_application_lodge_date,
+          processing_time: enrollmentData.processing_time,
+          bonus_amount: enrollmentData.bonus_amount
+
         });
 
-        res.status(200).send(site);
+        res.status(200).send(enrollment);
+
+        // const site = await Enrollment.create({
+        //   id: generateUUID(),
+        //   clientId: req.body.clientId,
+        //   courseId: req.body.courseId,
+        //   course_start_date: req.body.course_start_date
+        // });
+
+        // res.status(200).send(site);
       }
     } catch(e) {
       return next(e);

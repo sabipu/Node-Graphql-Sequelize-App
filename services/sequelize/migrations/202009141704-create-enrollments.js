@@ -22,14 +22,6 @@ module.exports.up = (queryInterface, DataTypes) => {
         },
         type: DataTypes.UUID
       },
-      universityId: {
-        allowNull: false,
-        references: {
-          key: "id",
-          model: "pre-universities"
-        },
-        type: DataTypes.UUID
-      },
       course_name: {
         type: DataTypes.STRING
       },
