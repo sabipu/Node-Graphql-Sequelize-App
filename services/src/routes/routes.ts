@@ -21,7 +21,7 @@ router.post('/api/v1/getAllClients', clientController.getAllClientResolver);
 
 // Enrollment
 router.post('/api/v1/createNewEnrollment', enrollmentController.createEnrollmentResolver);
-router.post('/api/v1/getAllEnrollment', enrollmentController.getAllEnrollmentResolver);
+router.get('/api/v1/getAllEnrollment', enrollmentController.getAllEnrollmentResolver);
 
 
 export default router;

@@ -8,6 +8,8 @@ import { LoginForm } from "./components/LoginForm";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { Dashboard } from "./components/Dashboard";
 import { Home } from "./components/Home";
+import { Enrollment } from './components/Enrollment';
+import { Client } from './components/Client';
 
 function App() {
   return (
@@ -24,6 +26,12 @@ function App() {
         </Route>
         <PrivateRoute path="/dashboard">
           <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute path="/client">
+          <Client />
+        </PrivateRoute>
+        <PrivateRoute path="/enrollment">
+          <Enrollment />
         </PrivateRoute>
       </Switch>
     </Router>

@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+$sidebarWidth: 380px;
+
+* {
+  box-sizing: border-box;
+
+  &:after,
+  &:before {
+    box-sizing: border-box;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font: 16px/1.5 'Source Sans Pro', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.aside {
+  width: $sidebarWidth;
+  background-color: #f1f4fd;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.aside__main {
+  width: 90px;
+  background: #fff;
+  height: 100%;
+  float: left;
+}
+
+.aside__sub {
+  float: left;
+  width: calc(100% - 90px);
+}
+
+.mainContent {
+  padding-left: $sidebarWidth;
+}

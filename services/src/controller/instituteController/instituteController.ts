@@ -1,9 +1,8 @@
-import { UserSession, Enrollment } from "#root/db/models";
+import { UserSession, Institute } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
-import enrollmentCalculator from "#root/helpers/enrollmentCalculator";
 
-class enrollmentControllers {
-  createEnrollmentResolver = async (req: any, res: any, next: any) => {
+class instituteControllers {
+  createInstituteResolver = async (req: any, res: any, next: any) => {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
@@ -49,7 +48,7 @@ class enrollmentControllers {
     }
   }
 
-  getAllEnrollmentResolver = async (req: any, res: any, next: any) => {
+  getAllInstituteResolver = async (req: any, res: any, next: any) => {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
@@ -72,5 +71,5 @@ class enrollmentControllers {
   }
 }
 
-const enrollmentController = new enrollmentControllers();
-export default enrollmentController;
+const instituteController = new instituteControllers();
+export default instituteController;

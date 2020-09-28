@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { Layout } from '../Layout';
 
 
 function Enrollment(props) {
@@ -63,8 +64,7 @@ function Enrollment(props) {
   }
 
   return(
-    <>
-
+    <Layout>
       <div>
         <input type="text" placeholder="client ID" id="client_id" value={state.client_id} onChange={handleChange} />
       </div>
@@ -97,7 +97,10 @@ function Enrollment(props) {
       <div>
       {state.successMessage}
       </div>
-    </>
+      <div className="enrollmentHolder">
+        
+      </div>
+    </Layout>
   )
 }
 

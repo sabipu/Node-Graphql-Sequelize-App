@@ -10,7 +10,7 @@ module.exports.up = (queryInterface, DataTypes) => {
       allowNull: false,
       references: {
         key: "id",
-        model: "pre-companies"
+        model: "pre-institutes"
       },
       type: DataTypes.UUID
     },
@@ -35,15 +35,15 @@ module.exports.up = (queryInterface, DataTypes) => {
     },
     application_processing_days: {
       allowNull: true,
-      type: DataTypes.INT
+      type: DataTypes.INTEGER
     },
-    bonus_amount: {
+    onshore_bonus_amount: {
       allowNull: true,
-      type: DataTypes.INT
+      type: DataTypes.INTEGER
     },
-    category: {
-      type: DataTypes.ENUM,
-      values: ['onshore', 'offshore']
+    offshore_bonus_amount: {
+      allowNull: true,
+      type: DataTypes.INTEGER
     },
     createdAt: {
       allowNull: false,
