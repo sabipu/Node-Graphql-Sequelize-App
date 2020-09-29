@@ -19,10 +19,13 @@ module.exports.up = (queryInterface, DataTypes) => {
       values: ['admin', 'staff']
     },
     team: {
-      type: DataTypes.UUID
+      type: DataTypes.STRING
     },
-    company: {
-      type: DataTypes.UUID
+    company_name: {
+      type: DataTypes.STRING
+    },
+    company_username: {
+      type: DataTypes.STRING
     },
     email: {
       allowNull: false,

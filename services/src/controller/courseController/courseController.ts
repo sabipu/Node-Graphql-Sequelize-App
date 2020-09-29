@@ -1,8 +1,8 @@
 import { User, UserSession, Client, Company } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
-class clientControllers {
-  createClientResolver = async (req: any, res: any, next: any) => {
+class courseControllers {
+  createCourseResolver = async (req: any, res: any, next: any) => {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
@@ -61,7 +61,7 @@ class clientControllers {
     }
   }
 
-  getAllClientResolver = async (req: any, res: any, next: any) => {
+  getAllCourseResolver = async (req: any, res: any, next: any) => {
     try {
       const session = await UserSession.findByPk(req.headers.token);
 
@@ -84,5 +84,5 @@ class clientControllers {
   }
 }
 
-const clientController = new clientControllers();
-export default clientController;
+const courseController = new courseControllers();
+export default courseController;

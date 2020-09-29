@@ -1,12 +1,14 @@
 import { addHours } from "date-fns";
-import { User, UserSession, Site } from "#root/db/models";
+import { User, Company, UserSession, Site } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 import hashedPassword from "#root/helpers/hashedPassword";
 import passwordCompareSync from "#root/helpers/passwordCompareSync";
+import { any } from "sequelize/types/lib/operators";
 
 const USER_SESSION_EXPIRY_HOURS = 1;
 
 class userControllers {
+  // gets All the users available
   getAllUsers(req: any, res: any) {
     User.findAll()
       .then((users: any) => res.status(200).send({
@@ -16,6 +18,48 @@ class userControllers {
       }));
   }
 
+  // create User for admin user with Company attached to the user
+  createCompanyResolver = async (req: any, res: any, next: any) => {
+    if (await User.findOne({ where: { email: req.body.email } })) {
+      res.status(403).send({
+        success: false,
+        message: "Email address already exists"
+      })
+    }
+    try {
+      const user = await User.create({
+        id: generateUUID(),
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        role: "admin",
+        company_name: req.body.company_name,
+        company_username: req.body.company_username,
+        email: req.body.email,
+        hashPassword: hashedPassword(req.body.password),
+        last_login: new Date()
+      });
+      
+      const company = await Company.create({
+        id: generateUUID(),
+        userId: user.id,
+        company_name: req.body.company_name,
+        company_username: req.body.company_username,
+
+      })
+
+      return res.status(200).send({
+        success: true,
+        message: "User created successfully",
+        user,
+        company
+      })
+    } catch(e) {
+      return next(e);
+    }
+
+  }
+
+  // create User - usually created by admin user of a company
   createUserResolver = async (req: any, res: any, next: any) => {
     if (await User.findOne({ where: { email: req.body.email } })) {
       res.status(403).send({
@@ -68,13 +112,14 @@ class userControllers {
       const userSession = await UserSession.create({
         expiresAt,
         id: sessionToken,
+        token: hashedPassword(sessionToken),
         userId: user.id
       });
 
       return res.status(200).send({
         success: true,
         message: "User session created",
-        userSession
+        token: sessionToken
       });
 
     }

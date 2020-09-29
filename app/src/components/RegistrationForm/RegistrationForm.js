@@ -5,9 +5,12 @@ import { Link, withRouter } from "react-router-dom";
 
 function RegistrationForm(props) {
     const [state , setState] = useState({
+        first_name : "",
+        last_name : "",
+        company_name : "",
+        company_username : "",
         email : "",
         password : "",
-        first_name: "",
         confirmPassword: "",
         successMessage: null
     })
@@ -21,19 +24,23 @@ function RegistrationForm(props) {
 
     const sendDetailsToServer = () => {
       if(state.email.length && state.password.length) {
-          const payload= {
+          const payload = {
             "first_name":state.first_name,
+            "last_name":state.last_name,
+            "company_name":state.company_name,
+            "company_username":state.company_username,
             "email":state.email,
-            "password":state.password,
+            "password":state.password
           }
-          axios.post(API_BASE_URL+'/api/v1/createNewUser', payload)
+
+          axios.post(API_BASE_URL+'/api/v1/createNewCompany', payload)
               .then(function (response) {
                   if(response.status === 200){
                       setState(prevState => ({
                           ...prevState,
                           'successMessage' : 'Registration successful. Redirecting to home page..'
                       }))
-                      localStorage.setItem(ACCESS_TOKEN_NAME,response.data.token);
+                      localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
                       redirectToHome();
                   } else{
                     setState(prevState => ({
@@ -55,15 +62,7 @@ function RegistrationForm(props) {
 
     const handleSubmitClick = (e) => {
         e.preventDefault();
-        console.log(state);
-        if(state.password === state.confirmPassword) {
-            sendDetailsToServer()    
-        } else {
-          setState(prevState => ({
-            ...prevState,
-            'successMessage' : 'Passwords do not match'
-          }))
-        }
+        sendDetailsToServer();
     }
 
     const redirectToHome = () => {
@@ -71,18 +70,25 @@ function RegistrationForm(props) {
     }
 
     return(
-      <>
+      <div className="form__wrapper">
+        <h2>Register</h2>
         <div>
           <input type="text" placeholder="First name" id="first_name" value={state.first_name} onChange={handleChange} />
         </div>
         <div>
-          <input type="text" placeholder="email" id="email" value={state.email} onChange={handleChange} />
+          <input type="text" placeholder="Last name" id="last_name" value={state.last_name} onChange={handleChange} />
+        </div>
+        <div>
+          <input type="text" placeholder="Company name" id="company_name" value={state.company_name} onChange={handleChange} />
+        </div>
+        <div>
+          <input type="text" placeholder="Company Username" id="company_username" value={state.company_username} onChange={handleChange} />
+        </div>
+        <div>
+          <input type="email" placeholder="Email" id="email" value={state.email} onChange={handleChange} />
         </div>
         <div>
           <input type="password" placeholder="password" id="password" value={state.password} onChange={handleChange} />
-        </div>
-        <div>
-          <input type="password" placeholder="confirm password" id="confirmPassword" value={state.confirmPassword} onChange={handleChange} />
         </div>
         <input type="submit" onClick={handleSubmitClick} /> 
         <div>
@@ -90,7 +96,7 @@ function RegistrationForm(props) {
         </div>
         <Link to="/">Home</Link>
         <Link to="/login">Login</Link>
-      </>
+      </div>
     )
 }
 

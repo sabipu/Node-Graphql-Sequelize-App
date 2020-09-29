@@ -15,11 +15,11 @@ module.exports.up = (queryInterface, DataTypes) => {
       },
       type: DataTypes.UUID
     },
-    name: {
+    company_name: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    url: {
+    company_username: {
       allowNull: true,
       type: DataTypes.STRING
     },

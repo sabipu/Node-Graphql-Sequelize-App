@@ -15,6 +15,10 @@ module.exports.up = (queryInterface, DataTypes) => {
         model: "pre-companies"
       }
     },
+    condat_id: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     first_name: {
       allowNull: true,
       type: DataTypes.STRING
@@ -35,7 +39,11 @@ module.exports.up = (queryInterface, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    contact_type: {
+    added_by: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    assigned_to: {
       allowNull: true,
       type: DataTypes.STRING
     },

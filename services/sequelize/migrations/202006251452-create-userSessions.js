@@ -15,6 +15,9 @@ module.exports.up = (queryInterface, DataTypes) => {
       },
       type: DataTypes.UUID
     },
+    token: {
+      type: DataTypes.CHAR(64)
+    },
     expiresAt: {
       allowNull: false,
       type: DataTypes.DATE

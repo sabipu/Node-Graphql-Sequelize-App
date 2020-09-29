@@ -10,6 +10,7 @@ import { Dashboard } from "./components/Dashboard";
 import { Home } from "./components/Home";
 import { Enrollment } from './components/Enrollment';
 import { Client } from './components/Client';
+import { Institute } from './components/Institute';
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <PrivateRoute path="/dashboard">
           <Dashboard />
+        </PrivateRoute>
+        <PrivateRoute path="/institute">
+          <Institute />
         </PrivateRoute>
         <PrivateRoute path="/client">
           <Client />

@@ -23,6 +23,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+table {
+  margin-top: 40px;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+  }
+}
+
 #root {
   height: 100%;
 }
@@ -60,5 +72,5 @@ code {
 }
 
 .mainContent {
-  padding-left: $sidebarWidth;
+  padding-left: calc(#{$sidebarWidth} + 50px);
 }

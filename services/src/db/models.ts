@@ -33,6 +33,18 @@ export class User extends Model<User> {
   last_name!: string;
 
   @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  company_name!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  company_username!: string;
+
+  @Column({
     allowNull: false,
     unique: true,
     type: DataType.STRING
@@ -70,6 +82,13 @@ export class UserSession extends Model<UserSession> {
   })
   @ForeignKey(() => User)
   userId!: string;
+
+  @Column({
+    allowNull: false,
+    type: DataType.CHAR(64)
+  })
+  @ForeignKey(() => User)
+  token!: string;
 
   @Column({
     allowNull: false,
@@ -167,13 +186,13 @@ export class Company extends Model<Company> {
     allowNull: true,
     type: DataType.STRING
   })
-  name!: string;
+  company_name!: string;
 
   @Column({
     allowNull: true,
     type: DataType.STRING
   })
-  url!: string;
+  company_username!: string;
 
   @Column({
     allowNull: true,
@@ -219,6 +238,12 @@ export class Client extends Model<Client> {
     allowNull: true,
     type: DataType.STRING
   })
+  condat_id!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
   first_name!: string;
 
   @Column({
@@ -249,7 +274,13 @@ export class Client extends Model<Client> {
     allowNull: true,
     type: DataType.STRING
   })
-  contact_type!: string;
+  added_by!: string;
+
+  @Column({
+    allowNull: true,
+    type: DataType.STRING
+  })
+  assigned_to!: string;
 
   @Column({
     allowNull: true,
