@@ -6,7 +6,7 @@ module.exports.up = (queryInterface, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    companyId: {
+    instituteId: {
       allowNull: false,
       references: {
         key: "id",
@@ -14,24 +14,13 @@ module.exports.up = (queryInterface, DataTypes) => {
       },
       type: DataTypes.UUID
     },
-    name: {
+    course_name: {
       allowNull: true,
       type: DataTypes.STRING
     },
-    university_name : {
-      type: DataTypes.STRING
-    },
-    email: {
+    course_duration: {
       allowNull: true,
-      type: DataTypes.STRING
-    },
-    phone: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    duration: {
-      allowNull: true,
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     application_processing_days: {
       allowNull: true,

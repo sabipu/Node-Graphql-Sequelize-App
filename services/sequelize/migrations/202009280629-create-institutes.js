@@ -14,7 +14,19 @@ module.exports.up = (queryInterface, DataTypes) => {
       },
       type: DataTypes.UUID
     },
-    name: {
+    institute_name: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    institute_code: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    institute_email: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    institute_phone: {
       allowNull: true,
       type: DataTypes.STRING
     },

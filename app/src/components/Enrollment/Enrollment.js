@@ -9,17 +9,18 @@ import { Layout } from '../Layout';
 
 
 function Enrollment(props) {
-  const [state , setState] = useState({
+  const [enrollment , setEnrollment] = useState({
       client_id: "",
       course_name : "",
       institute : "",
       category : "",
       course_start_date : new Date(),
-      successMessage: null
+      successMessage: null,
+      allEnrollments: null
   })
   const handleChange = (e) => {
       const {id , value} = e.target   
-      setState(prevState => ({
+      setEnrollment(prevState => ({
           ...prevState,
           [id] : value
       }))
@@ -28,13 +29,13 @@ function Enrollment(props) {
   const handleSubmitClick = (e) => {
     e.preventDefault();
     const payload={
-        "email":state.email,
-        "password":state.password,
+        "email":enrollment.email,
+        "password":enrollment.password,
     }
     axios.post(API_BASE_URL+'/api/v1/login', payload)
     .then(function (response) {
         if(response.status === 200){
-            setState(prevState => ({
+            setEnrollment(prevState => ({
                 ...prevState,
                 'successMessage' : 'Login successful. Redirecting to home page..'
             }))
@@ -42,13 +43,13 @@ function Enrollment(props) {
             redirectToHome();
         }
         else if(response.code === 204){
-          setState(prevState => ({
+          setEnrollment(prevState => ({
             ...prevState,
             'successMessage' : 'Username and password do not match'
           }))
         }
         else{
-          setState(prevState => ({
+          setEnrollment(prevState => ({
             ...prevState,
             'successMessage' : 'Username does not exists'
           }))
@@ -66,39 +67,66 @@ function Enrollment(props) {
   return(
     <Layout>
       <div>
-        <input type="text" placeholder="client ID" id="client_id" value={state.client_id} onChange={handleChange} />
-      </div>
-      <div>
-        <select id="course_name" value={state.course_name} onChange={handleChange}>
-          <option value="bachelors-in-nursing">Bachelors in Nursing</option>
-          <option value="bachelors-in-it">Bachelors in IT</option>
-          <option value="masters-in-commerce">Masters in Commerce</option>
-          <option value="masters-in-humanity">Masters in Humanity</option>
-        </select>
-      </div>
-      <div>
-        <select id="institute" value={state.institute} onChange={handleChange}>
-          <option value="murdoch-uni">Murdoch Uni</option>
-          <option value="curtin-uni">Curtin Uni</option>
-          <option value="uwa">UWA Uni</option>
-          <option value="edith-cowan-uni">Edith Cowan Uni</option>
-        </select>
-      </div>
-      <div>
-        <select id="category" value={state.category} onChange={handleChange}>
-          <option value="onshore">Onshore</option>
-          <option value="offshore">Offshore</option>
-        </select>
-      </div>
-      <div>
-        <DatePicker id="course_start_date" selected={state.course_start_date} onChange={date => handleChange(date)} />
-      </div>
-      <input type="submit" onClick={handleSubmitClick} />
-      <div>
-      {state.successMessage}
-      </div>
-      <div className="enrollmentHolder">
-        
+        <Link to="/dashboard">Dashboard</Link>
+        <h2>Add Enrollment</h2>
+        <div>
+          <input type="text" placeholder="client ID" id="client_id" value={enrollment.client_id} onChange={handleChange} />
+        </div>
+        <div>
+          <select id="course_name" value={enrollment.course_name} onChange={handleChange}>
+            <option value="bachelors-in-nursing">Bachelors in Nursing</option>
+            <option value="bachelors-in-it">Bachelors in IT</option>
+            <option value="masters-in-commerce">Masters in Commerce</option>
+            <option value="masters-in-humanity">Masters in Humanity</option>
+          </select>
+        </div>
+        <div>
+          <select id="institute" value={enrollment.institute} onChange={handleChange}>
+            <option value="murdoch-uni">Murdoch Uni</option>
+            <option value="curtin-uni">Curtin Uni</option>
+            <option value="uwa">UWA Uni</option>
+            <option value="edith-cowan-uni">Edith Cowan Uni</option>
+          </select>
+        </div>
+        <div>
+          <select id="category" value={enrollment.category} onChange={handleChange}>
+            <option value="onshore">Onshore</option>
+            <option value="offshore">Offshore</option>
+          </select>
+        </div>
+        <div>
+          <DatePicker id="course_start_date" selected={enrollment.course_start_date} onChange={date => handleChange(date)} />
+        </div>
+        <input type="submit" onClick={handleSubmitClick} />
+        <div>
+        {enrollment.successMessage}
+        </div>
+        <div>
+          <table>
+            <thead>
+                <tr>
+                    <th>CID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Assigned to:</th>
+                </tr>
+            </thead>
+            <tbody>
+                {clientData.allClients ? clientData.allClients.map((client, index) => (
+                <tr key={index}>
+                    <td>{client.condat_id}</td>
+                    <td>{ `${client.first_name} ${client.middle_name} ${client.last_name}` }</td>
+                    <td>{ client.phone }</td>
+                    <td>{ client.email }</td>
+                    <td>{ client.assigned_to }</td>
+                </tr> )) :
+                <tr>
+                    <td colSpan="5">No Clients available</td>
+                </tr> }
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   )

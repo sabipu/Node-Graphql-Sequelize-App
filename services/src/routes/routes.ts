@@ -27,7 +27,7 @@ router.post('/api/v1/getAllEnrollment', enrollmentController.getAllEnrollmentRes
 
 // Course
 router.post('/api/v1/createNewCourse', courseController.createCourseResolver);
-router.post('/api/v1/getAllCourses', courseController.getAllCourseResolver);
+router.get('/api/v1/getAllCourses', courseController.getAllCourseResolver);
 
 
 export default router;

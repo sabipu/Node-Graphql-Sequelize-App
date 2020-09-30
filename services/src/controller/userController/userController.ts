@@ -44,15 +44,26 @@ class userControllers {
         userId: user.id,
         company_name: req.body.company_name,
         company_username: req.body.company_username,
-
       })
+
+      await User.update({companyId: company.id}, { where: {id: user.id} });
+
+      const expiresAt = addHours(new Date(), USER_SESSION_EXPIRY_HOURS);
+      const sessionToken = generateUUID();
+
+      const userSession = await UserSession.create({
+        expiresAt,
+        id: sessionToken,
+        token: hashedPassword(sessionToken),
+        userId: user.id
+      });
 
       return res.status(200).send({
         success: true,
-        message: "User created successfully",
-        user,
-        company
-      })
+        message: "User session created",
+        token: sessionToken
+      });
+      
     } catch(e) {
       return next(e);
     }

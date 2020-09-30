@@ -6,6 +6,10 @@ module.exports.up = (queryInterface, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
+    companyId: {
+      allowNull: true,
+      type: DataTypes.UUID
+    },
     first_name: {
       allowNull: true,
       type: DataTypes.STRING

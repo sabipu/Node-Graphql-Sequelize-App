@@ -1,4 +1,4 @@
-import { User, UserSession, Client, Company } from "#root/db/models";
+import { User, UserSession, Institute, Course, Client, Company } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
 class courseControllers {
@@ -10,51 +10,45 @@ class courseControllers {
         return res.status(403).send({
           success: false,
           message: "No user found"
-        });
+        }); 
       } else {
-        if (await Client.findOne({ where: { email: req.body.email } })) {
-          res.status(403).send({
-            success: false,
-            message: "Email address already exists"
-          })
-        }if (await Client.findOne({ where: { condat_id: req.body.condat_id } })) {
-          res.status(403).send({
-            success: false,
-            message: "Condat ID already exists"
-          })
-        } else {
-          const user = await User.findByPk(session.userId);
-          let userId = null;
-          let companyId = null;
-          let company = null;
+        const user = await User.findByPk(session.userId);
 
-          if(user) {
-            userId = user.id;
-          }
-          if(userId !== null) {
-            company = await Company.findOne({ where: { userId: userId } });
-          }
-          
-          if(company) {
-            companyId = company.id;
-          }
+        
 
-          const site = await Client.create({
-            id: generateUUID(),
-            companyId: companyId,
-            condat_id: req.body.condat_id,
-            first_name: req.body.first_name,
-            middle_name: req.body.middle_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            phone: req.body.phone,
-            added_by: userId,
-            assigned_to: req.body.assigned_to,
-            description: req.body.description
-          });
-
-          res.status(200).send(site);
+        if(user) {
+          const company = await Company.findByPk(user.companyId); 
         }
+        
+        if(user) { 
+          const company = await Company.findByPk(user.companyId);
+
+          if(company) {
+            const institute = await Institute.create({
+              id: generateUUID(),
+              companyId: company.id,
+              institute_name: req.body.institute_name,
+              institute_code: req.body.institute_code,
+              institute_email: req.body.institute_email,
+              institute_phone: req.body.institute_phone
+            });
+
+            if(institute) {
+              const course = await Course.create({
+                id: generateUUID(),
+                instituteId: institute.id,
+                course_name: req.body.course_name,
+                couse_duration: req.body.course_duration,
+                application_processing_days: req.body.application_processing_days,
+                onshore_bonus_amount: req.body.onshore_bonus_amount,
+                offshore_bonus_amount: req.body.offshore_bonus_amount
+              })
+
+              res.status(200).send(course);
+            }
+          }
+        }
+        res.status(200).send('error');
       }
     } catch(e) {
       return next(e);
@@ -71,11 +65,11 @@ class courseControllers {
           message: "Cannot find session"
         })
       } else {
-        const clients = await Client.findAll();
+        const courses = await Course.findAll();
 
         res.status(200).send({
           success: true,
-          clients
+          courses
         })
       }
     } catch(e) {

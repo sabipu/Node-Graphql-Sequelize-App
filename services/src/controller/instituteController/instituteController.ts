@@ -1,4 +1,4 @@
-import { UserSession, Institute } from "#root/db/models";
+import { User, UserSession, Company, Institute, Course } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
 class instituteControllers {
@@ -6,42 +6,42 @@ class instituteControllers {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
-      if(session) {
+      if(!session) {
         return res.status(403).send({
           success: false,
           message: "No user found"
         }); 
       } else {
-        const enrollmentData = await enrollmentCalculator(req.body.courseId, req.body.course_start_date);
+        const user = await User.findByPk(session.userId);
+        const company = null;
+        const course = null;
+        
+        if(user) { const company = await Company.findByPk(user.companyId); }
 
-        const enrollment = await Enrollment.create({
-          id: generateUUID(),
-          clientId: req.body.clientId,
-          courseId: req.body.courseId,
-          course_name: enrollmentData.course_name,
-          course_category: enrollmentData.course_category,
-          course_start_date: enrollmentData.course_start_date,
-          application_submission_date: enrollmentData.applicate_submission_date,
-          offer_letter_date: enrollmentData.offer_letter_date,
-          offer_accpetance_date: enrollmentData.offer_accpetance_date,
-          gte_assessment_date: enrollmentData.gte_assessment_date,
-          ecoe_date: enrollmentData.ecoe_date,
-          visa_application_lodge_date: enrollmentData.visa_application_lodge_date,
-          processing_time: enrollmentData.processing_time,
-          bonus_amount: enrollmentData.bonus_amount
+        if(company) {
+          const institute = await Institute.create({
+            id: generateUUID(),
+            companyId: company.id,
+            institute_name: req.body.institute_name,
+            institute_code: req.body.institute_code,
+            institute_email: req.body.institute_email,
+            institute_phone: req.body.institute_phone
+          });
 
-        });
+          if(institute) {
+            const course = await Course.create({
+              id: generateUUID(),
+              instituteId: institute.id,
+              course_name: req.body.course_name,
+              course_duration: req.body.course_duration,
+              application_processing_days: req.body.application_processing_days,
+              onshore_bonus_amount: req.body.onshore_bonus_amount,
+              offshore_bonus_amount: req.body.offshore_bonus_amount
+            })
+          }
+        }
 
-        res.status(200).send(enrollment);
-
-        // const site = await Enrollment.create({
-        //   id: generateUUID(),
-        //   clientId: req.body.clientId,
-        //   courseId: req.body.courseId,
-        //   course_start_date: req.body.course_start_date
-        // });
-
-        // res.status(200).send(site);
+        res.status(200).send(course);
       }
     } catch(e) {
       return next(e);
