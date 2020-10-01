@@ -6,6 +6,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Layout } from "../Layout";
 
 function Institute(props) {
+    const [institutes, setInstitutes] = useState([]);
     const [course , setCourse] = useState({
         course_name: "",
         institute_name : "",
@@ -74,12 +75,7 @@ function Institute(props) {
           if(response.status !== 200){
             // redirectToLogin()
           } else {
-              setCourse(prevState => ({
-                ...prevState,
-                allCourses : response.data.courses
-              }))
-
-              console.log('Courses', course.allCourses);
+            setInstitutes(response.data.courses)
           }
       })
       .catch(function (error) {
@@ -139,7 +135,7 @@ function Institute(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {course.allCourses ? course.allCourses.map((course, index) => (
+                            {institutes.length ? institutes.map((course, index) => (
                             <tr key={index}>
                                 <td>{course.course_name}</td>
                                 <td>{ course.course_duration }</td>

@@ -6,6 +6,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Layout } from "../Layout";
 
 function Client(props) {
+    const [clients, setClients] = useState([]);
     const [clientData , setClientData] = useState({
         condat_id: "",
         first_name : "",
@@ -71,10 +72,7 @@ function Client(props) {
           if(response.status !== 200){
             // redirectToLogin()
           } else {
-              setClientData(prevState => ({
-                ...prevState,
-                allClients : response.data.clients
-              }))
+              setClients(response.data.clients);
           }
       })
       .catch(function (error) {
@@ -136,7 +134,7 @@ function Client(props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {clientData.allClients ? clientData.allClients.map((client, index) => (
+                            {clients.length ? clients.map((client, index) => (
                             <tr key={index}>
                                 <td>{client.condat_id}</td>
                                 <td>{ `${client.first_name} ${client.middle_name} ${client.last_name}` }</td>

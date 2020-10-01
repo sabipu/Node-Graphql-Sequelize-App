@@ -9,7 +9,8 @@ import { Layout } from '../Layout';
 
 
 function Enrollment(props) {
-  const [enrollment , setEnrollment] = useState({
+  const [enrollments, setEnrollments] = useState([]);
+  const [newEnrollment, setnewEnrollment] = useState({
       client_id: "",
       course_name : "",
       institute : "",
@@ -20,22 +21,24 @@ function Enrollment(props) {
   })
   const handleChange = (e) => {
       const {id , value} = e.target   
-      setEnrollment(prevState => ({
+      setnewEnrollment(prevState => ({
           ...prevState,
           [id] : value
       }))
   }
 
+  console.log('Enro', enrollments);
+
   const handleSubmitClick = (e) => {
     e.preventDefault();
     const payload={
-        "email":enrollment.email,
-        "password":enrollment.password,
+        "email":newEnrollment.email,
+        "password":newEnrollment.password,
     }
     axios.post(API_BASE_URL+'/api/v1/login', payload)
     .then(function (response) {
         if(response.status === 200){
-            setEnrollment(prevState => ({
+            setnewEnrollment(prevState => ({
                 ...prevState,
                 'successMessage' : 'Login successful. Redirecting to home page..'
             }))
@@ -43,13 +46,13 @@ function Enrollment(props) {
             redirectToHome();
         }
         else if(response.code === 204){
-          setEnrollment(prevState => ({
+          setnewEnrollment(prevState => ({
             ...prevState,
             'successMessage' : 'Username and password do not match'
           }))
         }
         else{
-          setEnrollment(prevState => ({
+          setnewEnrollment(prevState => ({
             ...prevState,
             'successMessage' : 'Username does not exists'
           }))
@@ -70,10 +73,10 @@ function Enrollment(props) {
         <Link to="/dashboard">Dashboard</Link>
         <h2>Add Enrollment</h2>
         <div>
-          <input type="text" placeholder="client ID" id="client_id" value={enrollment.client_id} onChange={handleChange} />
+          <input type="text" placeholder="client ID" id="client_id" value={newEnrollment.client_id} onChange={handleChange} />
         </div>
         <div>
-          <select id="course_name" value={enrollment.course_name} onChange={handleChange}>
+          <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
             <option value="bachelors-in-nursing">Bachelors in Nursing</option>
             <option value="bachelors-in-it">Bachelors in IT</option>
             <option value="masters-in-commerce">Masters in Commerce</option>
@@ -81,7 +84,7 @@ function Enrollment(props) {
           </select>
         </div>
         <div>
-          <select id="institute" value={enrollment.institute} onChange={handleChange}>
+          <select id="institute" value={newEnrollment.institute} onChange={handleChange}>
             <option value="murdoch-uni">Murdoch Uni</option>
             <option value="curtin-uni">Curtin Uni</option>
             <option value="uwa">UWA Uni</option>
@@ -89,17 +92,17 @@ function Enrollment(props) {
           </select>
         </div>
         <div>
-          <select id="category" value={enrollment.category} onChange={handleChange}>
+          <select id="category" value={newEnrollment.category} onChange={handleChange}>
             <option value="onshore">Onshore</option>
             <option value="offshore">Offshore</option>
           </select>
         </div>
         <div>
-          <DatePicker id="course_start_date" selected={enrollment.course_start_date} onChange={date => handleChange(date)} />
+          <DatePicker id="course_start_date" selected={newEnrollment.course_start_date} onChange={date => handleChange(date)} />
         </div>
         <input type="submit" onClick={handleSubmitClick} />
         <div>
-        {enrollment.successMessage}
+        {newEnrollment.successMessage}
         </div>
         <div>
           <table>
@@ -113,7 +116,7 @@ function Enrollment(props) {
                 </tr>
             </thead>
             <tbody>
-                {clientData.allClients ? clientData.allClients.map((client, index) => (
+                {enrollments.length ? enrollments.map((client, index) => (
                 <tr key={index}>
                     <td>{client.condat_id}</td>
                     <td>{ `${client.first_name} ${client.middle_name} ${client.last_name}` }</td>
@@ -122,7 +125,7 @@ function Enrollment(props) {
                     <td>{ client.assigned_to }</td>
                 </tr> )) :
                 <tr>
-                    <td colSpan="5">No Clients available</td>
+                    <td colSpan="5">No Enrollments available</td>
                 </tr> }
             </tbody>
           </table>
