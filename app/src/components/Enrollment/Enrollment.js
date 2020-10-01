@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiCotants';
 import { Link, withRouter } from "react-router-dom";
@@ -9,6 +9,8 @@ import { Layout } from '../Layout';
 
 
 function Enrollment(props) {
+  const [clients, setClients] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
   const [newEnrollment, setnewEnrollment] = useState({
       client_id: "",
@@ -26,8 +28,6 @@ function Enrollment(props) {
           [id] : value
       }))
   }
-
-  console.log('Enro', enrollments);
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
@@ -63,6 +63,34 @@ function Enrollment(props) {
     });
   }
 
+  useEffect(() => {
+    axios.get(API_BASE_URL+'/api/v1/getAllClients', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
+    .then(function (response) {
+        if(response.status !== 200){
+          // redirectToLogin()
+        } else {
+          console.log(response)
+          setClients(response.data.clients)
+        }
+    })
+    .catch(function (error) {
+      // redirectToLogin()
+    });
+
+    axios.get(API_BASE_URL+'/api/v1/getAllCourses', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
+    .then(function (response) {
+        if(response.status !== 200){
+          // redirectToLogin()
+        } else {
+          console.log(response)
+          setCourses(response.data.courses)
+        }
+    })
+    .catch(function (error) {
+      // redirectToLogin()
+    });
+  }, [newEnrollment]);
+
   const redirectToHome = () => {
     props.history.push('/dashboard');
   }
@@ -72,16 +100,19 @@ function Enrollment(props) {
       <div>
         <Link to="/dashboard">Dashboard</Link>
         <h2>Add Enrollment</h2>
-        <div>
-          <input type="text" placeholder="client ID" id="client_id" value={newEnrollment.client_id} onChange={handleChange} />
+        <div>        
+          {clients.length && 
+            <select id="client_id" value={newEnrollment.client_id} onChange={handleChange}>
+              { clients.map((client, index) => ( <option key={index} value={client.condat_id}>{client.first_name }</option> )) }
+            </select>
+          }
         </div>
         <div>
-          <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
-            <option value="bachelors-in-nursing">Bachelors in Nursing</option>
-            <option value="bachelors-in-it">Bachelors in IT</option>
-            <option value="masters-in-commerce">Masters in Commerce</option>
-            <option value="masters-in-humanity">Masters in Humanity</option>
-          </select>
+          {courses.length && 
+            <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
+              { courses.map((course, index) => ( <option key={index}>{course.course_name }</option> )) }
+            </select>
+          }
         </div>
         <div>
           <select id="institute" value={newEnrollment.institute} onChange={handleChange}>

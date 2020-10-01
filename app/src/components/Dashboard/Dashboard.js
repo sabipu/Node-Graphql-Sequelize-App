@@ -26,7 +26,7 @@ function Dashboard(props) {
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/client">Client</Link></li>
             <li><Link to="/institute">Institute</Link></li>
-            <li><Link to="/enrollment">Add Enrollment</Link></li>
+            <li><Link to="/enrollment">Enrollment</Link></li>
         </Layout>
     )
 }
