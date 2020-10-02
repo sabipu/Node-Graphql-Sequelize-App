@@ -453,49 +453,49 @@ export class Enrollment extends Model<Enrollment> {
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   course_start_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   application_submission_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   offer_letter_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   offer_accpetance_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   gte_assessment_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   ecoe_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   actual_ecoe_received_date!: string;
 
   @Column({
     allowNull: true,
-    type: DataType.DATE
+    type: DataType.DATEONLY
   })
   visa_application_lodge_date!: string;
 

@@ -30,28 +30,28 @@ module.exports.up = (queryInterface, DataTypes) => {
         values: ["onshore", "offshore"]
       },
       course_start_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       application_submission_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       offer_letter_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       offer_accpetance_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       gte_assessment_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       ecoe_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       actual_ecoe_received_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       visa_application_lodge_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
       },
       processing_time: {
         allowNull: true,

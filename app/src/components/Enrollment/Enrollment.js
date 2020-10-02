@@ -130,7 +130,7 @@ function Enrollment(props) {
         <div>
           {courses.length && 
             <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
-              { courses.map((course, index) => ( <option key={index} data-id={course.id}>{course.course_name }</option> )) }
+              { courses.map((course, index) => ( <option key={index} value={course.id}>{course.course_name }</option> )) }
             </select>
           }
         </div>
