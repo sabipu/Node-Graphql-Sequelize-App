@@ -1,7 +1,7 @@
 import { Course } from "#root/db/models";
 import { start } from "repl";
 
-const enrollmentCalculator = async (courseId, startDate) => {
+const enrollmentCalculator = async (courseId, startDate, category) => {
     var currentTime = new Date();
     var courseProcessingDays = null;
     var actualCourseStartDate = new Date(startDate);
@@ -36,13 +36,17 @@ const enrollmentCalculator = async (courseId, startDate) => {
             enrollmentDetails.msg = "No course with such ID";
         } else {
             courseProcessingDays = course.application_processing_days;
-            var courseName = course.name;
-            var courseCategory = course.category;
-            var courseBonusAmount = course.bonus_amount;
+            var courseName = course.course_name;
+            var courseBonusAmount = null;
+
+            if(category === 'onshore') {
+                courseBonusAmount = course.onshore_bonus_amount;
+            } else {
+                courseBonusAmount = course.onshore_bonus_amount;
+            }
 
             enrollmentDetails.processing_time = courseProcessingDays;
             enrollmentDetails.course_name = courseName;
-            enrollmentDetails.course_category = courseCategory;
             enrollmentDetails.bonus_amount = courseBonusAmount;
         }
     }

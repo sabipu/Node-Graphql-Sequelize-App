@@ -14,12 +14,11 @@ function Enrollment(props) {
   const [enrollments, setEnrollments] = useState([]);
   const [newEnrollment, setnewEnrollment] = useState({
       client_id: "",
-      course_name : "",
-      institute : "",
-      category : "",
+      courseId : "",
+      universityId : "",
+      course_category : "",
       course_start_date : new Date(),
-      successMessage: null,
-      allEnrollments: null
+      successMessage: null
   })
   const handleChange = (e) => {
       const {id , value} = e.target   
@@ -32,10 +31,14 @@ function Enrollment(props) {
   const handleSubmitClick = (e) => {
     e.preventDefault();
     const payload={
-        "email":newEnrollment.email,
-        "password":newEnrollment.password,
+      "clientId": newEnrollment.clientId,
+      "courseId": newEnrollment.courseId,
+      "universityId": newEnrollment.universityId,
+      "course_category": newEnrollment.course_category,
+      "course_start_date": newEnrollment.course_start_date
     }
-    axios.post(API_BASE_URL+'/api/v1/login', payload)
+
+    axios.post(API_BASE_URL+'/api/v1/createNewEnrollment', payload)
     .then(function (response) {
         if(response.status === 200){
             setnewEnrollment(prevState => ({
@@ -43,7 +46,7 @@ function Enrollment(props) {
                 'successMessage' : 'Login successful. Redirecting to home page..'
             }))
             localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-            redirectToHome();
+            // redirectToHome();
         }
         else if(response.code === 204){
           setnewEnrollment(prevState => ({
@@ -71,6 +74,19 @@ function Enrollment(props) {
         } else {
           console.log(response)
           setClients(response.data.clients)
+        }
+    })
+    .catch(function (error) {
+      // redirectToLogin()
+    });
+
+    axios.get(API_BASE_URL+'/api/v1/getAllEnrollment', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
+    .then(function (response) {
+        if(response.status !== 200){
+          // redirectToLogin()
+        } else {
+          console.log(response)
+          setEnrollments(response.data.enrollments)
         }
     })
     .catch(function (error) {
@@ -110,17 +126,9 @@ function Enrollment(props) {
         <div>
           {courses.length && 
             <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
-              { courses.map((course, index) => ( <option key={index}>{course.course_name }</option> )) }
+              { courses.map((course, index) => ( <option key={index} data-id={course.id}>{course.course_name }</option> )) }
             </select>
           }
-        </div>
-        <div>
-          <select id="institute" value={newEnrollment.institute} onChange={handleChange}>
-            <option value="murdoch-uni">Murdoch Uni</option>
-            <option value="curtin-uni">Curtin Uni</option>
-            <option value="uwa">UWA Uni</option>
-            <option value="edith-cowan-uni">Edith Cowan Uni</option>
-          </select>
         </div>
         <div>
           <select id="category" value={newEnrollment.category} onChange={handleChange}>
@@ -139,24 +147,38 @@ function Enrollment(props) {
           <table>
             <thead>
                 <tr>
-                    <th>CID</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Assigned to:</th>
+                    <th>No.</th>
+                    <th>Client name</th>
+                    <th>Course Name</th>
+                    <th>Category</th>
+                    <th>Start Date</th>
+                    <th>App submission date</th>
+                    <th>Offer letter date</th>
+                    <th>Offer letter acceptance date</th>
+                    <th>GTE assessment date</th>
+                    <th>ECOE date</th>
+                    <th>Visa lodge date</th>
+                    <th>Bonus Amount</th>
                 </tr>
             </thead>
             <tbody>
-                {enrollments.length ? enrollments.map((client, index) => (
+                {enrollments.length ? enrollments.map((enrollment, index) => (
                 <tr key={index}>
-                    <td>{client.condat_id}</td>
-                    <td>{ `${client.first_name} ${client.middle_name} ${client.last_name}` }</td>
-                    <td>{ client.phone }</td>
-                    <td>{ client.email }</td>
-                    <td>{ client.assigned_to }</td>
+                    <td>{enrollment.index}</td>
+                    <td>{ enrollment.client_name }</td>
+                    <td>{ enrollment.course_name }</td>
+                    <td>{ enrollment.course_category }</td>
+                    <td>{ enrollment.course_start_date }</td>
+                    <td>{ enrollment.application_submission_date }</td>
+                    <td>{ enrollment.offer_letter_date }</td>
+                    <td>{ enrollment.offer_accpetance_date }</td>
+                    <td>{ enrollment.gte_assessment_date }</td>
+                    <td>{ enrollment.ecoe_date }</td>
+                    <td>{ enrollment.visa_application_lodge_date }</td>
+                    <td>{ enrollment.bonus_amount }</td>
                 </tr> )) :
                 <tr>
-                    <td colSpan="5">No Enrollments available</td>
+                    <td colSpan="12">No Enrollments available</td>
                 </tr> }
             </tbody>
           </table>
