@@ -22,7 +22,7 @@ class enrollmentControllers {
             clientId: client.id,
             courseId: req.body.course_id,
             course_name: enrollmentData.course_name,
-            course_category: req.body.category,
+            course_category: req.body.course_category,
             course_start_date: req.body.course_start_date,
             application_submission_date: enrollmentData.applicate_submission_date,
             offer_letter_date: enrollmentData.offer_letter_date,
