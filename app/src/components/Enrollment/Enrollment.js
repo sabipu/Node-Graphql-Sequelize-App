@@ -21,12 +21,19 @@ function Enrollment(props) {
       successMessage: null
   })
   const handleChange = (e) => {
-      const {id , value} = e.target   
+      const { id , value } = e.target   
       setnewEnrollment(prevState => ({
-          ...prevState,
-          [id] : value
-      }))
+        ...prevState,
+        [id] : value
+    }))
   }
+
+  const handleDateChange = (date, e) => { 
+    setnewEnrollment(prevState => ({
+        ...prevState,
+        course_start_date : date
+    }))
+}
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
@@ -72,7 +79,6 @@ function Enrollment(props) {
         if(response.status !== 200){
           // redirectToLogin()
         } else {
-          console.log(response)
           setClients(response.data.clients)
         }
     })
@@ -80,12 +86,11 @@ function Enrollment(props) {
       // redirectToLogin()
     });
 
-    axios.get(API_BASE_URL+'/api/v1/getAllEnrollment', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
+    axios.get(API_BASE_URL+'/api/v1/getAllEnrollments', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
     .then(function (response) {
         if(response.status !== 200){
           // redirectToLogin()
         } else {
-          console.log(response)
           setEnrollments(response.data.enrollments)
         }
     })
@@ -98,7 +103,6 @@ function Enrollment(props) {
         if(response.status !== 200){
           // redirectToLogin()
         } else {
-          console.log(response)
           setCourses(response.data.courses)
         }
     })
@@ -137,7 +141,7 @@ function Enrollment(props) {
           </select>
         </div>
         <div>
-          <DatePicker id="course_start_date" selected={newEnrollment.course_start_date} onChange={date => handleChange(date)} />
+          <DatePicker selected={newEnrollment.course_start_date} onChange={(date ,e) => handleDateChange(date, e)} />
         </div>
         <input type="submit" onClick={handleSubmitClick} />
         <div>
