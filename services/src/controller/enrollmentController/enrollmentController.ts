@@ -13,14 +13,14 @@ class enrollmentControllers {
           message: "No user found"
         }); 
       } else {
-        const enrollmentData = await enrollmentCalculator(req.body.courseId, req.body.course_start_date);
-        const client = await Client.findOne({ where: { condat_id: req.body.clientId } });
+        const enrollmentData = await enrollmentCalculator(req.body.course_id, req.body.course_start_date);
+        const client = await Client.findOne({ where: { condat_id: req.body.condat_id } });
 
         if(client) {
           const enrollment = await Enrollment.create({
             id: generateUUID(),
             clientId: client.id,
-            courseId: req.body.courseId,
+            courseId: req.body.course_id,
             course_name: enrollmentData.course_name,
             course_category: req.body.category,
             course_start_date: req.body.course_start_date,
@@ -69,7 +69,7 @@ class enrollmentControllers {
 
   getAllEnrollmentResolver = async (req: any, res: any, next: any) => {
     try {
-      const session = await UserSession.findByPk(req.body.sessionId);
+      const session = await UserSession.findByPk(req.headers.token);
 
       if(!session) {
         res.status(403).send({

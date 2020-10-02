@@ -1,13 +1,13 @@
 import { Course } from "#root/db/models";
 import { start } from "repl";
 
-const enrollmentCalculator = async (courseId, startDate, category) => {
+const enrollmentCalculator = async (course_id, startDate, category) => {
     var currentTime = new Date();
     var courseProcessingDays = null;
     var actualCourseStartDate = new Date(startDate);
 
     var enrollmentDetails = {
-        courseId: courseId,
+        course_id: course_id,
         courseStartDate: new Date(startDate),
         course_name: null,
         course_category: null,
@@ -25,11 +25,11 @@ const enrollmentCalculator = async (courseId, startDate, category) => {
         msg: null
     }
 
-    if(!courseId || !startDate) {
+    if(!course_id || !startDate) {
         enrollmentDetails.status = false;
         enrollmentDetails.msg = "Course or course start date not provided.";
     } else {
-        const course = await Course.findByPk(courseId);
+        const course = await Course.findByPk(course_id);
 
         if(course === null) {
             enrollmentDetails.status = false;
