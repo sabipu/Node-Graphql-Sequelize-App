@@ -13,8 +13,8 @@ function Enrollment(props) {
   const [courses, setCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
   const [newEnrollment, setnewEnrollment] = useState({
-      client_id: "",
-      course_name : "",
+      condat_id: "",
+      course_id : "",
       course_category : "",
       course_start_date : new Date(),
       successMessage: null
@@ -38,8 +38,8 @@ function Enrollment(props) {
     e.preventDefault();
     const payload = {
       sessionId: localStorage.getItem(ACCESS_TOKEN_NAME),
-      clientId: newEnrollment.clientId,
-      courseId: newEnrollment.course_name,
+      condat_id: newEnrollment.condat_id,
+      course_id: newEnrollment.course_id,
       course_category: newEnrollment.course_category,
       course_start_date: newEnrollment.course_start_date
     }
@@ -49,9 +49,8 @@ function Enrollment(props) {
         if(response.status === 200){
             setnewEnrollment(prevState => ({
                 ...prevState,
-                'successMessage' : 'Login successful. Redirecting to home page..'
+                'successMessage' : 'Enrollment added successfully'
             }))
-            localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
             // redirectToHome();
         }
         else if(response.code === 204){
@@ -125,7 +124,7 @@ function Enrollment(props) {
         <h2>Add Enrollment</h2>
         <div>        
           {clients.length && 
-            <select id="client_id" value={newEnrollment.client_id} onChange={handleChange}>
+            <select id="condat_id" value={newEnrollment.condat_id} onChange={handleChange}>
               <option value="">Select</option>
               { clients.map((client, index) => ( <option key={index} value={client.condat_id}>{client.first_name }</option> )) }
             </select>
@@ -133,7 +132,7 @@ function Enrollment(props) {
         </div>
         <div>
           {courses.length && 
-            <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
+            <select id="course_id" value={newEnrollment.course_id} onChange={handleChange}>
               <option value="">Select</option>
               { courses.map((course, index) => ( <option key={index} value={course.id}>{course.course_name }</option> )) }
             </select>
