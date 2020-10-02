@@ -71,7 +71,7 @@ class enrollmentControllers {
     try {
       const session = await UserSession.findByPk(req.body.sessionId);
 
-      if(session) {
+      if(!session) {
         res.status(403).send({
           success: false,
           message: "Cannot find session"

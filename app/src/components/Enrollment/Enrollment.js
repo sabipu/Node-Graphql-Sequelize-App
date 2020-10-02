@@ -14,8 +14,7 @@ function Enrollment(props) {
   const [enrollments, setEnrollments] = useState([]);
   const [newEnrollment, setnewEnrollment] = useState({
       client_id: "",
-      courseId : "",
-      universityId : "",
+      course_name : "",
       course_category : "",
       course_start_date : new Date(),
       successMessage: null
@@ -37,12 +36,12 @@ function Enrollment(props) {
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
-    const payload={
-      "clientId": newEnrollment.clientId,
-      "courseId": newEnrollment.courseId,
-      "universityId": newEnrollment.universityId,
-      "course_category": newEnrollment.course_category,
-      "course_start_date": newEnrollment.course_start_date
+    const payload = {
+      sessionId: localStorage.getItem(ACCESS_TOKEN_NAME),
+      clientId: newEnrollment.clientId,
+      courseId: newEnrollment.course_name,
+      course_category: newEnrollment.course_category,
+      course_start_date: newEnrollment.course_start_date
     }
 
     axios.post(API_BASE_URL+'/api/v1/createNewEnrollment', payload)
@@ -74,6 +73,10 @@ function Enrollment(props) {
   }
 
   useEffect(() => {
+
+
+    console.log(newEnrollment);
+
     axios.get(API_BASE_URL+'/api/v1/getAllClients', { headers: { 'token': localStorage.getItem(ACCESS_TOKEN_NAME) }})
     .then(function (response) {
         if(response.status !== 200){
@@ -123,6 +126,7 @@ function Enrollment(props) {
         <div>        
           {clients.length && 
             <select id="client_id" value={newEnrollment.client_id} onChange={handleChange}>
+              <option value="">Select</option>
               { clients.map((client, index) => ( <option key={index} value={client.condat_id}>{client.first_name }</option> )) }
             </select>
           }
@@ -130,12 +134,14 @@ function Enrollment(props) {
         <div>
           {courses.length && 
             <select id="course_name" value={newEnrollment.course_name} onChange={handleChange}>
+              <option value="">Select</option>
               { courses.map((course, index) => ( <option key={index} value={course.id}>{course.course_name }</option> )) }
             </select>
           }
         </div>
         <div>
-          <select id="category" value={newEnrollment.category} onChange={handleChange}>
+          <select id="course_category" value={newEnrollment.course_category} onChange={handleChange}>
+            <option value="">Select</option>
             <option value="onshore">Onshore</option>
             <option value="offshore">Offshore</option>
           </select>
