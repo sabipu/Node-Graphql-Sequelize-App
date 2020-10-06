@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import axios from 'axios';
-import {API_BASE_URL, ACCESS_TOKEN_NAME} from './constants/apiCotants';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from './utils/PrivateRoute';
 
