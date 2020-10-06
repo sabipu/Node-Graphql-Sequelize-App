@@ -1,0 +1,18 @@
+branch-defaults:
+  default:
+    environment: null
+    group_suffix: null
+global:
+  application_name: services
+  branch: null
+  default_ec2_keyname: aws-eb
+  default_platform: Node.js 12 running on 64bit Amazon Linux 2
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-deploy-user
+  repository: null
+  sc: null
+  workspace_type: Application
