@@ -1,0 +1,21 @@
+name: CI   // Any name of your choice
+
+on: [push] // GitHub event like push, pull-request etc
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  // Using latest ubuntu latest version
+
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Beanstalk Deploy
+      uses: einaregilsson/beanstalk-deploy@v4
+      with:
+        aws_access_key: 
+        aws_secret_key: 
+        region: 
+        application_name: 
+        environment_name: 
+        version_label: 
+        deployment_package: 
