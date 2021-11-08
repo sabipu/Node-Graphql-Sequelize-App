@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@types/sequelize": "github:types/sequelize",
-    "apollo-server": "^2.18.1",
+    "apollo-server": "^2.25.3",
     "apollo-server-express": "^2.18.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
